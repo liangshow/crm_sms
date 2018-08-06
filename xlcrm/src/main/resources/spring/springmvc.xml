@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:dubbo="http://code.alibabatech.com/schema/dubbo" xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
+        http://code.alibabatech.com/schema/dubbo http://code.alibabatech.com/schema/dubbo/dubbo.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+        
+    <context:component-scan base-package="com.liangjj.crm.controller" />
+    <!-- 配置springmvc的json数据转换 -->
+    <mvc:annotation-driven>
+	  <mvc:message-converters register-defaults="true">
+	    <bean class="com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter">  
+	      <property name="supportedMediaTypes" value="application/json"/>
+	      <property name="features">
+	        <array>
+	          <value>WriteMapNullValue</value>
+	          <value>WriteDateUseDateFormat</value>
+	        </array>
+	      </property>
+	    </bean>
+        </mvc:message-converters>
+	</mvc:annotation-driven>
+	<!-- 配置处理器映射器 适配器 -->
+<!-- 	<mvc:annotation-driven conversion-service="conversionService"/> -->
+	<!-- 转换器的配置 -->
+<!-- 	<bean id="conversionService" -->
+<!-- 		class="org.springframework.format.support.FormattingConversionServiceFactoryBean"> -->
+<!-- 		<property name="converters"> -->
+<!-- 			<set> -->
+<!-- 				<bean class="com.liangjj.crm.converter.DateConvert"></bean> -->
+<!-- 			</set> -->
+<!-- 		</property> -->
+<!-- 	</bean> -->
+
+<!-- 	<bean id="htmlViewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver"> -->
+<!--         <property name="prefix" value="/crm/"/> -->
+<!--         <property name="suffix" value=".html"/> -->
+<!--         <property name="contentType" value="text/html"/> -->
+<!--     </bean> -->
+	
+<!-- 	<mvc:interceptors> -->
+<!-- 		<mvc:interceptor> -->
+<!-- 			<mvc:mapping path="/**"/> -->
+<!-- 			<mvc:exclude-mapping path="/error/*" /> -->
+<!-- 			<bean class="com.liangjj.crm.interceptor.LoginInterceptor"></bean> -->
+<!-- 		</mvc:interceptor> -->
+<!-- 	</mvc:interceptors> -->
+	
+	<!-- 静态资源映射,针对springmvc的拦截策略 -->
+
+	<mvc:resources location="/css/" mapping="/css/**"/>
+	<mvc:resources location="/fonts/" mapping="/fonts/**"/>
+	<mvc:resources location="/img/" mapping="/img/**"/>
+	<mvc:resources location="/js/" mapping="/js/**"/>
+	<mvc:resources location="/register/" mapping="/register/**"/>
+
+
+</beans>

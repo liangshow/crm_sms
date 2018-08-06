@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.liangjj.crm.dao.ProductsDao" >
+ 	<select id="getProductsById" parameterType="int" resultType="Product">
+ 		SELECT
+ 			p.pid,p.name,p.price,p.number 
+ 		FROM 
+ 			products p
+ 		WHERE
+ 			p.pid 
+ 		IN
+ 			(SELECT m.pid FROM customer_product m WHERE m.cid=#{id});
+ 	</select>
+</mapper>

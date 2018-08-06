@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.liangjj.crm.dao.DBCustomerDao" >
+ 	<select id="getCustomerByCid" resultType="DBCustomer" parameterType="int">
+ 		SELECT
+ 			c.cid,c.cus_name,c.cus_birthday,c.cus_sex,c.cus_address,c.cus_industry,c.cus_level,c.telnum 
+ 		FROM 
+ 			`customer` c 
+ 		<where>
+ 			and c.cid=#{cid};
+ 		</where>
+ 			
+ 	</select>
+ 	
+ 	<select id="getConnectionCustomerByPid" resultType="DBCustomer" parameterType="QueryCus">
+ 		SELECT c.cid,c.cus_name,c.cus_birthday,c.cus_sex,c.cus_address,c.cus_industry,c.cus_level,c.telnum FROM `customer` c WHERE 
+ 			c.cid 
+ 		IN 
+ 			(SELECT m.cid FROM `customer_product` m WHERE m.pid=#{pid} )
+ 		LIMIT 
+ 			#{start},#{size};
+ 	</select>
+ 	
+ 	<select id="getTotalCountOfCustomerByPid" resultType="int" parameterType="int">
+ 		SELECT 
+ 			count(*)
+ 		FROM
+ 			`customer` c 
+ 		WHERE 
+ 			c.cid 
+ 		IN 
+ 			(SELECT m.cid FROM `customer_product` m WHERE m.pid=#{pid} );
+ 	</select>
+ 	<delete id="deleteMiddleMsgByCid" parameterType="int">
+ 		delete from customer_product where cid=#{cid};
+ 	</delete>
+ 	
+ 	
+ 	
+ 	<delete id="deleteCustomerMsgByCid" parameterType="int">
+ 		delete from customer where cid=#{cid};
+ 	</delete>
+ 	
+ 	<update id="updateDBCustomer" parameterType="DBCustomer">
+ 		UPDATE 
+ 			`customer`
+ 		SET
+ 			cus_name=#{cus_name},
+ 			cus_birthday=#{cus_birthday},
+ 			cus_sex=#{cus_sex},
+ 			cus_address=#{cus_address},
+ 			cus_industry=#{cus_industry},
+ 			cus_level=#{cus_level},
+ 			telnum=#{telnum}	
+ 		WHERE	
+ 			cid=#{cid};
+ 	</update>
+ 	
+ 	<insert id="createCustomer" parameterType="DBCustomer">
+ 		INSERT INTO 
+ 			`customer`
+ 		VALUES	
+ 			(null,#{cus_name},#{cus_birthday},#{cus_sex},#{cus_address},#{cus_industry},#{cus_level},#{telnum});
+ 			<selectKey resultType="Integer" order="AFTER" keyProperty="cid">
+ 				SELECT LAST_INSERT_ID() AS cid;
+ 			</selectKey>
+ 	</insert>
+</mapper>
